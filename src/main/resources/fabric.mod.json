@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "chatignorer",
+	"version": "${version}",
+	"name": "ChatIgnorer",
+	"description": "Small mod to ignore chat messages based on regex, or player names",
+	"authors": [
+		"Grauly"
+	],
+	"contact": {
+		"sources": "https://github.com/Grauly/ChatIgnorer"
+	},
+	"license": "MIT",
+	"icon": "assets/chatignorer/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"grauly.chatignorer.ChatIgnorer"
+		],
+		"client": [
+			"grauly.chatignorer.ChatIgnorerClient"
+		]
+	},
+	"mixins": [
+		"chatignorer.mixins.json",
+		{
+			"config": "chatignorer.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.7",
+		"minecraft": "~${mc_version}",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
