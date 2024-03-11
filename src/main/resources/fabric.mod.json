@@ -12,7 +12,7 @@
 	},
 	"license": "MIT",
 	"icon": "assets/chatignorer/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"grauly.chatignorer.ChatIgnorer"
