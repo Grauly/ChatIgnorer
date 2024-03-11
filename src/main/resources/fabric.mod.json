@@ -19,6 +19,9 @@
 		],
 		"client": [
 			"grauly.chatignorer.ChatIgnorerClient"
+		],
+		"modmenu": [
+			"grauly.chatignorer.integration.ModMenuEntrypoint"
 		]
 	},
 	"mixins": [
