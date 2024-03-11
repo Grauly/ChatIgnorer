@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 public class ChatIgnorer implements ModInitializer {
 	public static final String MODID = "chatignorer";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+	public static boolean REGEX_NEEDS_REBUILD = true;
 
 	@Override
 	public void onInitialize() {
