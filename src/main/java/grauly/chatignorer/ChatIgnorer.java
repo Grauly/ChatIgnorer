@@ -1,5 +1,8 @@
 package grauly.chatignorer;
 
+import grauly.chatignorer.config.ChatIgnorerConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -11,6 +14,6 @@ public class ChatIgnorer implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		AutoConfig.register(ChatIgnorerConfig.class, GsonConfigSerializer::new);
 	}
 }
