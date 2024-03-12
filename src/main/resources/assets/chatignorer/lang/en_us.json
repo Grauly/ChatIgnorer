@@ -1,0 +1,9 @@
+{
+  "text.chatignorer.noargs": "No arguments give, expected player nickname.",
+  "text.chatignorer.unignore": "No longer ignoring ",
+  "text.chatignorer.ignore": "Now ignoring ",
+  "text.chatignorer.configfail": "Failed to save data to file, input ignored. Please try again.",
+
+  "text.autoconfig.chatignorer.option.ignoredPlayers": "Ignored Players",
+  "text.autoconfig.chatignorer.option.ignoredPatterns": "Ignored Patterns"
+}
