@@ -5,8 +5,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import grauly.chatignorer.config.ChatIgnorerConfig;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigData;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.text.Text;
 
@@ -15,12 +17,12 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 
 
 public class IgnoreClientCommand implements ClientCommandRegistrationCallback {
-    private static final LiteralArgumentBuilder<FabricClientCommandSource> BASE_NODE = literal("ignore").executes(context -> {
+    private final LiteralArgumentBuilder<FabricClientCommandSource> BASE_NODE = literal("ignore").executes(context -> {
         context.getSource().sendError(Text.translatable("text.chatignorer.noargs"));
         return 1;
     });
 
-    private static final RequiredArgumentBuilder<FabricClientCommandSource, String> PLAYER_SELECTOR_NODE = argument("player", new PlayerNameArgumentType()).executes(context -> {
+    private final RequiredArgumentBuilder<FabricClientCommandSource, String> PLAYER_SELECTOR_NODE = argument("player", new PlayerNameArgumentType()).executes(context -> {
         String name = context.getArgument("player", String.class);
         ChatIgnorerConfig config = AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig();
         if (config.ignoredPlayers.contains(name)) {
@@ -30,6 +32,8 @@ public class IgnoreClientCommand implements ClientCommandRegistrationCallback {
             config.ignoredPlayers.add(name);
             context.getSource().sendFeedback(Text.translatable("text.chatignorer.ignore").append(name));
         }
+        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).setConfig(config);
+        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).save();
         return 1;
     });
 
