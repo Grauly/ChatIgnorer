@@ -13,7 +13,7 @@ public class ListIgnoredCommand implements ClientCommandRegistrationCallback {
 
     @Override
     public void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
-        dispatcher.register(ClientCommandManager.literal("listignore").executes(ctx -> {
+        dispatcher.register(ClientCommandManager.literal("ignorelist").executes(ctx -> {
             AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig().ignoredPlayers.forEach(p -> ctx.getSource().sendFeedback(Text.of(p)));
             return 1;
         }));
