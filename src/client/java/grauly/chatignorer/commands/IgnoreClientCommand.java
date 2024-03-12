@@ -21,7 +21,15 @@ public class IgnoreClientCommand implements ClientCommandRegistrationCallback {
     });
 
     private static final RequiredArgumentBuilder<FabricClientCommandSource, String> PLAYER_SELECTOR_NODE = argument("player", new PlayerNameArgumentType()).executes(context -> {
-        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig().ignoredPlayers.add(context.getArgument("player", String.class));
+        String name = context.getArgument("player", String.class);
+        ChatIgnorerConfig config = AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig();
+        if (config.ignoredPlayers.contains(name)) {
+            config.ignoredPlayers.remove(name);
+            context.getSource().sendFeedback(Text.translatable("text.chatignorer.unignore").append(Text.of(name)));
+        } else {
+            config.ignoredPlayers.add(name);
+            context.getSource().sendFeedback(Text.translatable("text.chatignorer.ignore").append(name));
+        }
         return 1;
     });
 
