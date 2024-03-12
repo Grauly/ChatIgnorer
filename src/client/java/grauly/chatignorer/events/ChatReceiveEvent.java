@@ -28,7 +28,7 @@ public class ChatReceiveEvent implements ClientReceiveMessageEvents.AllowGame {
         config.ignoredPatterns.forEach(p -> {
             builder.append(p).append("|");
         });
-        builder.reverse().deleteCharAt(0).reverse();
+        if(!builder.isEmpty()) builder.reverse().deleteCharAt(0).reverse();
         fullRegex = builder.toString();
         ChatIgnorer.LOGGER.info(fullRegex);
         ChatIgnorer.REGEX_NEEDS_REBUILD = false;
