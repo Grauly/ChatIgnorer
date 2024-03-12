@@ -23,7 +23,7 @@ public class ChatReceiveEvent implements ClientReceiveMessageEvents.AllowGame {
             for (char c : p.toCharArray()) {
                 builder.append("((§.)*").append(c).append(")");
             }
-            builder.append(")(>|>>|:) .*|");
+            builder.append("(>|>>|:) .*|");
         });
         config.ignoredPatterns.forEach(p -> {
             builder.append(p).append("|");
