@@ -11,7 +11,6 @@ public class ChatReceiveEvent implements ClientReceiveMessageEvents.AllowGame {
 
     @Override
     public boolean allowReceiveGameMessage(Text message, boolean overlay) {
-        ChatIgnorer.LOGGER.info(message.getString());
         return !message.getString().matches(getRegex());
     }
 
