@@ -32,13 +32,22 @@ public class IgnoreClientCommand implements ClientCommandRegistrationCallback {
             config.ignoredPlayers.add(name);
             context.getSource().sendFeedback(Text.translatable("text.chatignorer.ignore").append(name));
         }
-        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).setConfig(config);
-        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).save();
+        updateConfig(config, context.getSource());
         return 1;
     });
 
     @Override
     public void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         dispatcher.register(BASE_NODE.then(PLAYER_SELECTOR_NODE));
+    }
+
+    private void updateConfig(ChatIgnorerConfig config, FabricClientCommandSource source) {
+        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).setConfig(config);
+        AutoConfig.getConfigHolder(ChatIgnorerConfig.class).save();
+        try {
+            AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig().validatePostLoad();
+        } catch (ConfigData.ValidationException e) {
+            source.sendError(Text.translatable("text.chatignorer.configfail"));
+        }
     }
 }

@@ -16,6 +16,7 @@ public class ChatIgnorerConfig implements ConfigData {
     @Override
     public void validatePostLoad() throws ValidationException {
         ChatIgnorer.REGEX_NEEDS_REBUILD = true;
+        ChatIgnorer.LOGGER.info("Config changed, validating");
         ArrayList<String> removals = new ArrayList<>();
         for (String ignoredPattern : ignoredPatterns) {
             try {
