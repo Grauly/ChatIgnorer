@@ -7,6 +7,6 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 public class ChatIgnorerClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		ClientReceiveMessageEvents.ALLOW_CHAT.register(new ChatReceiveEvent());
+		ClientReceiveMessageEvents.ALLOW_GAME.register(new ChatReceiveEvent());
 	}
 }

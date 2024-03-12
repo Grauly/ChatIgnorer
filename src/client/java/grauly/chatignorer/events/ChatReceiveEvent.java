@@ -1,40 +1,41 @@
 package grauly.chatignorer.events;
 
-import com.mojang.authlib.GameProfile;
 import grauly.chatignorer.ChatIgnorer;
 import grauly.chatignorer.config.ChatIgnorerConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
-import net.minecraft.network.message.MessageType;
-import net.minecraft.network.message.SignedMessage;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
-
-public class ChatReceiveEvent implements ClientReceiveMessageEvents.AllowChat {
+public class ChatReceiveEvent implements ClientReceiveMessageEvents.AllowGame {
     protected String fullRegex;
 
     @Override
-    public boolean allowReceiveChatMessage(Text message, @Nullable SignedMessage signedMessage, @Nullable GameProfile sender, MessageType.Parameters params, Instant receptionTimestamp) {
-        return !message.toString().matches(getRegex());
+    public boolean allowReceiveGameMessage(Text message, boolean overlay) {
+        ChatIgnorer.LOGGER.info(message.getString());
+        return !message.getString().matches(getRegex());
     }
 
     protected void rebuildRegex() {
         ChatIgnorerConfig config = AutoConfig.getConfigHolder(ChatIgnorerConfig.class).getConfig();
         StringBuilder builder = new StringBuilder();
         config.ignoredPlayers.forEach(p -> {
-            builder.append("\\[.*\\]").append(p).append(".*>.*|");
+            builder.append("((§.){0,2}\\[.*\\]|(§.){0,2}From\\>\\>|(§.){0,2}GROUP\\:) ");
+            for (char c : p.toCharArray()) {
+                builder.append("((§.)*").append(c).append(")");
+            }
+            builder.append(")(>|>>|:) .*|");
         });
         config.ignoredPatterns.forEach(p -> {
             builder.append(p).append("|");
         });
         builder.reverse().deleteCharAt(0).reverse();
         fullRegex = builder.toString();
+        ChatIgnorer.LOGGER.info(fullRegex);
+        ChatIgnorer.REGEX_NEEDS_REBUILD = false;
     }
 
     protected String getRegex() {
-        if(ChatIgnorer.REGEX_NEEDS_REBUILD) rebuildRegex();
+        if (ChatIgnorer.REGEX_NEEDS_REBUILD) rebuildRegex();
         return fullRegex;
     }
 }
